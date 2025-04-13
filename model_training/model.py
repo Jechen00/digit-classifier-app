@@ -37,7 +37,7 @@ class VGGBlock(nn.Module):
             
             self.layers += [
                 nn.Conv2d(conv_in, conv_out, kernel_size = 3, stride = 1, padding = 1),
-#                 nn.BatchNorm2d(conv_out),
+                nn.BatchNorm2d(conv_out),
                 nn.ReLU()
             ]
     
