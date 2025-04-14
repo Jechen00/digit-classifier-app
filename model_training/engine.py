@@ -31,10 +31,12 @@ def train_step(model: torch.nn.Module,
     '''
     
     model.train()
-    train_loss, train_acc = 0, 0
-    
+    train_loss = torch.tensor(0.0, device = device)
+    train_acc = torch.tensor(0.0, device = device)
+    num_samps = len(dataloader.dataset)
+
     # Loop through all batches in the dataloader
-    for batch_idx, (X, y) in enumerate(dataloader):
+    for X, y in dataloader:
         
         optimizer.zero_grad() # Clear old accumulated gradients
         
@@ -42,19 +44,19 @@ def train_step(model: torch.nn.Module,
         
         y_logits = model(X) # Get logits
         
-        loss = loss_fn(y_logits, y) # Calculate loss for batch
-        train_loss += loss.item()
+        loss = loss_fn(y_logits, y)
+        train_loss += loss.detach() * X.shape[0] # Calculate total loss for batch
         
-        loss.backward() # Perform Backpropagation
+        loss.backward() # Perform backpropagation
         optimizer.step() # Update parameters
         
         y_pred = y_logits.argmax(dim = 1) # No softmax needed for argmax (b/c preserves order)
         
-        train_acc += (y_pred == y).sum().item() / len(y_logits) # Calculate accuracy for batch
+        train_acc += (y_pred == y).sum() # Calculate total accuracy for batch
     
-    # Get average loss and accuracy
-    train_loss /= len(dataloader)
-    train_acc /= len(dataloader)
+    # Get average loss and accuracy per sample
+    train_loss = train_loss.item() / num_samps
+    train_acc = train_acc.item() / num_samps
     
     return train_loss, train_acc
 
@@ -79,25 +81,26 @@ def test_step(model: torch.nn.Module,
     '''
     
     model.eval()
-    test_loss, test_acc = 0, 0
-    
+    test_loss = torch.tensor(0.0, device = device)
+    test_acc = torch.tensor(0.0, device = device)
+    num_samps = len(dataloader.dataset)
+
     with torch.inference_mode():
         # Loop through all batches in the dataloader
-        for batch_idx, (X, y) in enumerate(dataloader):
-
+        for X, y in dataloader:
             X, y = X.to(device), y.to(device)
 
             y_logits = model(X) # Get logits
 
-            test_loss += loss_fn(y_logits, y).item() # Calculate loss for batch
+            test_loss += loss_fn(y_logits, y) * X.shape[0] # Calculate total loss for batch
 
             y_pred = y_logits.argmax(dim = 1) # No softmax needed for argmax (b/c preserves order)
 
-            test_acc += (y_pred == y).sum().item() / len(y_logits) # Calculate accuracy for batch
+            test_acc += (y_pred == y).sum() # Calculate total accuracy for batch
 
     # Get average loss and accuracy
-    test_loss /= len(dataloader)
-    test_acc /= len(dataloader)
+    test_loss = test_loss.item() / num_samps
+    test_acc = test_acc.item() / num_samps
     
     return test_loss, test_acc
 
