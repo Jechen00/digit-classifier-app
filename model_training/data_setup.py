@@ -7,6 +7,21 @@ from torch.utils.data import DataLoader
 import utils
 from typing import Tuple
 
+# Transformations applied to each image
+BASE_TRANSFORMS = transforms.Compose([
+    transforms.ToTensor(), # Convert to tensor and rescale pixel values to within [0, 1]
+    transforms.Normalize(mean = [0.1307], std = [0.3081]) # Normalize with MNIST stats
+])
+
+TRAIN_TRANSFORMS = transforms.Compose([
+    transforms.RandomAffine(degrees = 15, # Rotate up to -/+ 15 degrees
+                            scale = (0.8, 1.2), # Scale between 80 and 120 percent
+                            translate = (0.08, 0.08), # Translate up to -/+ 8 percent in both x and y
+                            shear = 10),  # Shear up to -/+ 10 degrees
+    transforms.ToTensor(), # Convert to tensor and rescale pixel values to within [0, 1]
+    transforms.Normalize(mean = [0.1307], std = [0.3081]), # Normalize with MNIST stats
+])
+
 
 #####################################
 # Functions
@@ -23,17 +38,11 @@ def get_dataloaders(root: str,
         num_workers (int): Number of workers to use for multiprocessing. Default is 0.
     '''
 
-    # Transformations applied to each image
-    transform = transforms.Compose([
-        transforms.ToTensor(), # Convert to tensor and rescale pixel values to within [0, 1]
-        transforms.Normalize(mean = [0.1307], std = [0.3081]) # Normalize with MNIST stats
-    ])
-
     # Get training and testing MNIST data
     mnist_train = datasets.MNIST(root, download = True, train = True, 
-                                transform = transform)
+                                transform = TRAIN_TRANSFORMS)
     mnist_test = datasets.MNIST(root, download = True, train = False, 
-                                transform = transform)
+                                transform = BASE_TRANSFORMS)
 
     # Create dataloaders
     if num_workers > 0:

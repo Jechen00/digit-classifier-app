@@ -111,9 +111,9 @@ def train(model: torch.nn.Module,
           patience: int,
           min_delta: float,
           device: torch.device,
-          save_dir: str,
-          mod_name: str,
-          verbose: bool = True):
+          save_mod: bool = True,
+          save_dir: str = '',
+          mod_name: str = ''):
     '''
     Performs the training and testing steps for a PyTorch model, 
     with early stopping applied for test loss.
@@ -130,14 +130,20 @@ def train(model: torch.nn.Module,
         min_delta (float): Minimum decrease in loss to reset patience.
         
         device (torch.device): Device to train on.
+        save_mod (bool): Boolean to determine if model should be saved.
         save_dir (str): Directory to save the model to.
         mod_name (str): Filename for the saved model.
-        verbose (bool): Boolean to determine if extra messages should be printed out.
 
     returns:
         res: A results dictionary containing lists of train and test metrics for each epoch.
     '''
     
+    bold_start, bold_end = '\033[1m', '\033[0m'
+
+    if save_mod:
+        assert save_dir, 'save_dir cannot be None or empty.'
+        assert mod_name, 'mod_name cannot be None or empty.'
+
     # Initialize results dictionary
     res = {'train_loss': [],
            'train_acc': [],
@@ -159,27 +165,28 @@ def train(model: torch.nn.Module,
         res['test_loss'].append(test_loss)
         res['test_acc'].append(test_acc)
         
-        if verbose:
-            print(f'Epoch: {epoch + 1} | ' +
-                f'train_loss = {train_loss:.4f} | train_acc = {train_acc:.4f} | ' +
-                f'test_loss = {test_loss:.4f} | test_acc = {test_acc:.4f}')
+        print(f'Epoch: {epoch + 1} | ' +
+            f'train_loss = {train_loss:.4f} | train_acc = {train_acc:.4f} | ' +
+            f'test_loss = {test_loss:.4f} | test_acc = {test_acc:.4f}')
         
         # Check for improvement
         if best_loss == None:
             best_loss = test_loss
-            utils.save_model(model, save_dir, mod_name)
+            if save_mod:
+                utils.save_model(model, save_dir, mod_name)
 
         elif test_loss < best_loss - min_delta:
             best_loss = test_loss
             counter = 0
-            utils.save_model(model, save_dir, mod_name)
-            if verbose:
-                print('Adequate improvement in test loss; model saved.')
+
+            if save_mod:
+                utils.save_model(model, save_dir, mod_name)
+                print(f'{bold_start}[SAVED]{bold_end} Adequate improvement in test loss; model saved.')
 
         else:
             counter += 1
             if counter > patience:
-                print(f'No improvement in test loss after {counter} epochs; early stopping triggered.')
+                print(f'{bold_start}[ALERT]{bold_end} No improvement in test loss after {counter} epochs; early stopping triggered.')
                 break
 
     return res

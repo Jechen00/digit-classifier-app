@@ -33,14 +33,15 @@ args = parser.parse_args()
 # Training Code
 #####################################
 if __name__ == '__main__':
+
     print(f'{'#' * 50}\n'
-          f'Training hyperparameters:\n'
-          f'    - num_workers:   {args.num_workers}\n'
-          f'    - num_epochs:    {args.num_epochs}\n'
-          f'    - batch_size:    {args.batch_size}\n'
-          f'    - learning_rate: {args.learning_rate}\n'
-          f'    - patience:      {args.patience}\n'
-          f'    - min_delta:     {args.min_delta}\n'
+          f'\033[1mTraining hyperparameters:\033[0m \n'
+          f'    - num_workers:   {args.num_workers} \n'
+          f'    - num_epochs:    {args.num_epochs} \n'
+          f'    - batch_size:    {args.batch_size} \n'
+          f'    - learning_rate: {args.learning_rate} \n'
+          f'    - patience:      {args.patience} \n'
+          f'    - min_delta:     {args.min_delta} \n'
           f'{'#' * 50}')
 
     # Get dataloaders
@@ -76,5 +77,6 @@ if __name__ == '__main__':
                            patience = args.patience,
                            min_delta = args.min_delta,
                            device = utils.DEVICE,
+                           save_mod = True,
                            save_dir = save_dir,
                            mod_name = mod_name)
