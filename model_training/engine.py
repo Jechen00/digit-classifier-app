@@ -3,7 +3,7 @@
 #####################################
 import torch
 
-from typing import Tuple
+from typing import Tuple, Dict, List
 import utils
 
 #####################################
@@ -26,8 +26,8 @@ def train_step(model: torch.nn.Module,
         device (torch.device): Device to train on
         
     Returns:
-        train_loss (float): The average loss calculated over batches
-        train_acc (float): The average accuracy calculated over batches
+        train_loss (float): The average loss calculated over the training set.
+        train_acc (float): The accuracy calculated over the training set.
     '''
     
     model.train()
@@ -116,7 +116,7 @@ def train(model: torch.nn.Module,
           device: torch.device,
           save_mod: bool = True,
           save_dir: str = '',
-          mod_name: str = ''):
+          mod_name: str = '') -> Dict[str, List[float]]:
     '''
     Performs the training and testing steps for a PyTorch model, 
     with early stopping applied for test loss.
@@ -130,15 +130,15 @@ def train(model: torch.nn.Module,
         
         num_epochs (int): Max number of epochs to train.
         patience (int): Number of epochs to wait before early stopping.
-        min_delta (float): Minimum decrease in loss to reset patience.
+        min_delta (float): Minimum decrease in loss to reset counter.
         
         device (torch.device): Device to train on.
-        save_mod (bool): Boolean to determine if model should be saved.
-        save_dir (str): Directory to save the model to.
-        mod_name (str): Filename for the saved model.
+        save_mod (bool, optional): If True, saves the model after each epoch. Default is True.
+        save_dir (str, optional): Directory to save the model to. Must be nonempty if save_mod is True.
+        mod_name (str, optional): Filename for the saved model. Must be nonempty if save_mod is True.
 
     returns:
-        res: A results dictionary containing lists of train and test metrics for each epoch.
+        res (dict): A results dictionary containing lists of train and test metrics for each epoch.
     '''
     
     bold_start, bold_end = '\033[1m', '\033[0m'
@@ -154,7 +154,7 @@ def train(model: torch.nn.Module,
            'test_acc': []
     }
     
-    # Initialize best_loss and stagger_count for early stopping
+    # Initialize best_loss and counter for early stopping
     best_loss, counter = None, 0
         
     for epoch in range(num_epochs):
@@ -169,8 +169,8 @@ def train(model: torch.nn.Module,
         res['test_acc'].append(test_acc)
         
         print(f'Epoch: {epoch + 1} | ' +
-            f'train_loss = {train_loss:.4f} | train_acc = {train_acc:.4f} | ' +
-            f'test_loss = {test_loss:.4f} | test_acc = {test_acc:.4f}')
+             f'train_loss = {train_loss:.4f} | train_acc = {train_acc:.4f} | ' +
+             f'test_loss = {test_loss:.4f} | test_acc = {test_acc:.4f}')
         
         # Check for improvement
         if best_loss == None:
