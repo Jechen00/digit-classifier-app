@@ -9,11 +9,16 @@ FONTSIZES = {
     'plot_ticks': 14,
     'plot_labels': 16,
     'plot_bar_txt': 14,
-    'btn': '1rem'
+    'btn': '1rem',
+    'sidebar_txt': '0.95rem',
+    'sidebar_title': '1.8rem',
+    'made_by_txt': '0.75rem'
 }
 
 CLRS = {
-    'txt': 'white',
+    'pred_txt': 'white',
+    'sidebar': 'white',
+    'sidebar_txt': 'black',
     'base_bar': 'rgb(158, 202, 225)',
     'base_bar_line': 'rgb(8, 48, 107)',
     'pred_bar': 'rgb(240, 140, 140)',
@@ -24,7 +29,8 @@ CLRS = {
     'img_plot_bg': 'black',
     'btn_base': 'white',
     'btn_hover': 'rgb(200, 200, 200)',
-    'page_bg': 'rgb(150, 150, 150)'
+    'page_bg': 'rgb(150, 150, 150)',
+    'made_by_txt': 'rgb(180, 180, 180)'
 }
 
 

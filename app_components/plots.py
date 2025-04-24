@@ -46,7 +46,7 @@ class PlotPanels(param.Parameterized):
         )
         
         self.pred_txt = pn.pane.HTML(
-            styles = {'margin':'0rem', 'color':styles.CLRS['txt'], 
+            styles = {'margin':'0rem', 'color':styles.CLRS['pred_txt'], 
                       'font-size':styles.FONTSIZES['pred_txt'],
                       'font-family':styles.FONTFAMILY}
         )
