@@ -13,7 +13,7 @@ FILE_PATH = os.path.dirname(__file__)
 
 
 ################################################
-# Dashboard - Layout
+# Digit Classifier Layout
 ################################################
 class DigitClassifier(Viewer):
     def __init__(self, mod_path, mod_kwargs, **params):
@@ -31,14 +31,12 @@ class DigitClassifier(Viewer):
             object = FILE_PATH + '/logos/github-mark-white.png',
             alt_text = 'GitHub Repo',
             link_url = 'https://github.com/Jechen00/digit-classifier-app',
-            height = 65,
+            height = 70,
             styles = {'margin':'0'}
         )
         self.controls_col = pn.FlexBox(
             self.github_logo,
-            # pn.Spacer(height = 50),
             self.clear_btn, 
-            # pn.Spacer(height = 50),
             self.plot_panels.pred_txt,
             gap = '60px',
             flex_direction = 'column',

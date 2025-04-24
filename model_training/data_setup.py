@@ -1,5 +1,5 @@
 #####################################
-# Imports & Dependencies
+# Packages & Dependencies
 #####################################
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader

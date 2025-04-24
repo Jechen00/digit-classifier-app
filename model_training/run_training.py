@@ -1,5 +1,5 @@
 #####################################
-# Imports & Dependencies
+# Packages & Dependencies
 #####################################
 import argparse
 import torch

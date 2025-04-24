@@ -1,12 +1,8 @@
 #####################################
-# Packages
+# Packages & Dependencies
 #####################################
 import param
-import panel as pn
 from panel.reactive import ReactiveHTML
-from panel.viewable import Viewer
-
-from model_training import data_setup
 
 
 #####################################
