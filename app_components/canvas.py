@@ -10,6 +10,7 @@ from panel.reactive import ReactiveHTML
 #####################################
 class Canvas(ReactiveHTML):
     '''
+    The HTML canvas panel used for drawing digits (0-9) in the application.
     Reference: https://panel.holoviz.org/how_to/custom_components/examples/canvas_draw.html
     '''
     uri = param.String()
@@ -77,4 +78,7 @@ class Canvas(ReactiveHTML):
     }
 
     def toggle_clear(self, *event):
+        '''
+        Toggles the value of self.clear to trigger the JS 'clear' function.
+        '''
         self.clear = not self.clear

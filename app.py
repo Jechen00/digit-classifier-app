@@ -16,7 +16,16 @@ FILE_PATH = os.path.dirname(__file__)
 # Digit Classifier Layout
 ################################################
 class DigitClassifier(Viewer):
-    def __init__(self, mod_path, mod_kwargs, **params):
+    '''
+    Creates the UI for the classifier application. 
+
+    Args:
+        mod_path (str): The absolute path to the saved TinyVGG model
+        mod_kwargs (dict): A dictionary containing the keyword-arguments for the TinyVGG model.
+                           This should have the keys: num_blks, num_convs, in_channels, hidden_channels, and num_classes
+    '''
+
+    def __init__(self, mod_path: str, mod_kwargs: dict, **params):
         self.canvas = canvas.Canvas(sizing_mode = 'stretch_both', 
                                     styles = {'border':'black solid 0.15rem'})
         
@@ -187,6 +196,9 @@ class DigitClassifier(Viewer):
         self.clear_btn.on_click(self.canvas.toggle_clear)
         
     def __panel__(self):
+        '''
+        Returns the main layout of the application to be rendered by Panel.
+        '''
         return self.page_layout
 
 

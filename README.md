@@ -1,6 +1,8 @@
 # Digit Classifier 
 This is a handwritten digit classifier using a scaled-down **VGG (TinyVGG)** model. The model is trained on images from the MNIST dataset. The web framework for the web application is [Panel](https://panel.holoviz.org/).
 
+A version of this web application is deployed on [Hugging Face Spaces](https://huggingface.co/spaces/Jechen00/Handwritten_Digit_Classifier).
+
 ![Demo](assets/demo.gif)
 ## Recommended Installation Instructions
 #### 1) Create a New Python Environment

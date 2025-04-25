@@ -23,9 +23,20 @@ PLOTLY_CONFIGS = {
 }
 
 class PlotPanels(param.Parameterized):
-    canvas_info = param.ClassSelector(class_ = canvas.Canvas)
+    '''
+    Contains all Plotly pane objects for the application. 
+    This includes the probability bar chart and the MNIST preprocessed image heat map.
+
+    Args:
+        canvas_info (param.ClassSelector): A Canvas class object to get the data URI of the drawn image.
+        mod_path (str): The absolute path to the saved TinyVGG model.
+        mod_kwargs (dict): A dictionary containing the keyword-arguments for the TinyVGG model.
+                           This should have the keys: num_blks, num_convs, in_channels, hidden_channels, and num_classes
+    '''
+
+    canvas_info = param.ClassSelector(class_ = canvas.Canvas)    # Canvas object to get the data URI 
     
-    def __init__(self, mod_path, mod_kwargs, **params):
+    def __init__(self, mod_path: str, mod_kwargs: dict, **params):
         super().__init__(**params)
         self.class_labels = np.arange(0, 10)
         self.cnn_mod = model.TinyVGG(**mod_kwargs)
@@ -58,17 +69,29 @@ class PlotPanels(param.Parameterized):
         self.canvas_info.param.watch(self._update_prediction, 'uri')
 
     def _update_prediction(self, *event):
+        '''
+        Performs all prediction-related updates for the application.
+        This function is connected to the URI parameter of canvas_info through a watcher.
+        Any times the URI changes, a class prediction is immediately. 
+        Following this, the probability bar chart and model input heatmap are updated as well.
+        '''
         self._update_preprocessed_tensor()
         self._update_pred_txt()
         self._update_img_plot()
         self._update_prob_plot()
 
     def _update_preprocessed_tensor(self):
+        '''
+        Transforms the data URI (string) from canvas_info into a preprocessed tensor.
+        This is done by having it undergo the MNISt preprocessing pipeline (see mnist_preprocess in data_setup for details).
+        Additionally, a prediction is made for the preprocessed tensor to get its class label. 
+        The correpsonding set of prediction probabilities are stored.
+        '''
         # Check if uri is non-empty
         if self.canvas_info.uri:
             self.input_img = data_setup.mnist_preprocess(self.canvas_info.uri)
 
-            self.cnn_mod.eval() # Set CNN to eval & inferene mode
+            self.cnn_mod.eval() # Set CNN to eval & inference mode
             with torch.inference_mode():
                 pred_logits = self.cnn_mod(self.input_img.unsqueeze(0))
                 self.pred_probs = torch.softmax(pred_logits, dim = 1)[0].numpy()
@@ -79,6 +102,9 @@ class PlotPanels(param.Parameterized):
             self.pred_label = None
 
     def _update_pred_txt(self):
+        '''
+        Updates the prediction and probability HTML text to reflect the current data URI.
+        '''
         if self.canvas_info.uri:
             pred, prob = self.pred_label, f'{self.pred_probs[self.pred_label]:.3f}'
         else:
@@ -93,6 +119,10 @@ class PlotPanels(param.Parameterized):
         '''
 
     def _update_prob_plot(self):
+        '''
+        Updates the probability bar chart to showcase the softmax output probability distribution
+        obtained from the prediction in _update_preprocessed_tensor.
+        '''
         # Marker fill and outline color for bar plot
         mkr_clrs = [styles.CLRS['base_bar']] * len(self.class_labels)
         mkr_line_clrs = [styles.CLRS['base_bar_line']] * len(self.class_labels)
@@ -154,6 +184,9 @@ class PlotPanels(param.Parameterized):
         self.prob_pane.object = fig
         
     def _update_img_plot(self):
+        '''
+        Updates the heat map to showcase the current model input, i.e. the preprocessed canvas drawing.
+        '''
         img_np = self.input_img.squeeze().numpy()
 
         if self.pred_label is not None:
