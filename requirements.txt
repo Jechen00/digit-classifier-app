@@ -1,4 +1,4 @@
-numpy==2.2.3
+numpy==2.2.4
 matplotlib==3.10.1
 panel==1.4.5
 param==2.1.1

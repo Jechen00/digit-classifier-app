@@ -29,7 +29,7 @@ class PlotPanels(param.Parameterized):
         super().__init__(**params)
         self.class_labels = np.arange(0, 10)
         self.cnn_mod = model.TinyVGG(**mod_kwargs)
-        self.cnn_mod.load_state_dict(torch.load(mod_path))
+        self.cnn_mod.load_state_dict(torch.load(mod_path, map_location = 'cpu'))
         
         self.img_pane = pn.pane.Plotly(
             name = 'image_plot',
