@@ -10,7 +10,13 @@ import plotly.graph_objects as go
 
 from . import canvas
 from app_utils import styles
-from model_training import data_setup, model
+
+import sys, os
+APP_PATH = os.path.dirname(os.path.dirname(__file__)) # Path to the digit-classifier-app directory
+sys.path.append(APP_PATH + '/model_training')
+
+# Imports from model_training
+import data_setup, model
 
 
 #####################################

@@ -1,0 +1,13 @@
+mod_kwargs:
+  hidden_channels: 10
+  in_channels: 1
+  num_blks: 2
+  num_classes: 10
+  num_convs: 2
+train_kwargs:
+  batch_size: 100
+  learning_rate: 0.001
+  min_delta: 0.001
+  num_epochs: 25
+  num_workers: 0
+  patience: 5

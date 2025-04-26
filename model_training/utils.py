@@ -45,8 +45,9 @@ def save_model(model: torch.nn.Module,
     Saves the `state_dict()` of a model to the directory 'save_dir.'
 
     Args:
+        model (torch.nn.Module): The PyTorch model whose state dict and keyword arguments will be saved.
         save_dir (str): Directory to save the model to.
-        mod_name (str): Filename for the saved model. If this doesn't end with '.pth' or '.pt,' it will be added on.
+        mod_name (str): Filename for the saved model. If this doesn't end with '.pth' or '.pt,' it will be added on for the state_dict.
 
     '''
     # Create directory if it doesn't exist

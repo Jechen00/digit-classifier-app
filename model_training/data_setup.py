@@ -4,7 +4,7 @@
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 
-from model_training import utils
+import utils
 from typing import Tuple
 
 import io

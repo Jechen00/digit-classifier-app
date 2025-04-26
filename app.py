@@ -2,7 +2,7 @@
 # Packages & Dependencies
 #####################################
 import panel as pn
-import os
+import os, yaml
 from panel.viewable import Viewer
 
 from app_components import canvas, plots
@@ -17,7 +17,7 @@ FILE_PATH = os.path.dirname(__file__)
 ################################################
 class DigitClassifier(Viewer):
     '''
-    Creates the UI for the classifier application. 
+    Builds and displays the UI for the classifier application. 
 
     Args:
         mod_path (str): The absolute path to the saved TinyVGG model
@@ -202,20 +202,29 @@ class DigitClassifier(Viewer):
         return self.page_layout
 
 
+def create_app():
+    '''
+    Creates the application, ensuring that each user gets a different instance of digit_classifier.
+    Mostly used to keep things away from a global scope.
+    '''
+    # Used to serve with panel serve in command line
+    save_dir = FILE_PATH + '/saved_models'
+    base_name = 'tiny_vgg'
+
+    mod_path = f'{save_dir}/{base_name}_model.pth' # Path to the saved model state dict
+    settings_path = f'{save_dir}/{base_name}_settings.yaml' # Path to the saved model kwargs
+
+    # Load in model kwargs
+    with open( settings_path, 'r') as f:
+        loaded_settings = yaml.load(f, Loader = yaml.FullLoader)
+
+    mod_kwargs = loaded_settings['mod_kwargs']
+
+    digit_classifier = DigitClassifier(mod_path = mod_path, mod_kwargs = mod_kwargs)
+    return digit_classifier
+
 ################################################
 # Serve App
 ################################################
 # Used to serve with panel serve in command line
-save_dir = FILE_PATH + '/models'
-mod_name = 'tiny_vgg_model.pth'
-mod_path = f'{save_dir}/{mod_name}'
-
-mod_kwargs = {
-    'num_blks': 2,
-    'num_convs': 2,
-    'in_channels': 1,
-    'hidden_channels': 10,
-    'num_classes': 10
-}
-
-DigitClassifier(mod_path = mod_path, mod_kwargs = mod_kwargs).servable(title = 'CNN Digit Classifier')
+create_app().servable(title = 'CNN Digit Classifier')
