@@ -10,12 +10,15 @@ import os
 if torch.cuda.is_available():
     DEVICE = torch.device('cuda')
     MP_CONTEXT = None
+    PIN_MEM = True
 elif torch.backends.mps.is_available():
     DEVICE = torch.device('mps')
     MP_CONTEXT = 'forkserver'
+    PIN_MEM = False
 else:
     DEVICE = torch.device('cpu')
     MP_CONTEXT = None
+    PIN_MEM = False
 
 
 #####################################
@@ -37,6 +40,7 @@ def set_seed(seed: int = 0):
     torch.cuda.manual_seed_all(seed)
     
     torch.use_deterministic_algorithms(True)
+    os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
 
 def save_model(model: torch.nn.Module,
                save_dir: str, 

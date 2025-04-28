@@ -48,17 +48,19 @@ def get_dataloaders(root: str,
         num_workers (int): Number of workers to use for multiprocessing. Default is 0.
     '''
 
-    # Get training and testing MNIST data
+   # Get training and testing MNIST data
     mnist_train = datasets.MNIST(root, download = True, train = True, 
-                                transform = TRAIN_TRANSFORMS)
+                                 transform = TRAIN_TRANSFORMS)
     mnist_test = datasets.MNIST(root, download = True, train = False, 
                                 transform = BASE_TRANSFORMS)
 
     # Create dataloaders
     if num_workers > 0:
         mp_context = utils.MP_CONTEXT
+        persistent_workers = True
     else:
         mp_context = None
+        persistent_workers = False
 
     train_dl = DataLoader(
         dataset = mnist_train,
@@ -66,7 +68,8 @@ def get_dataloaders(root: str,
         shuffle = True,
         num_workers = num_workers,
         multiprocessing_context = mp_context,
-        pin_memory = True
+        pin_memory = utils.PIN_MEM,
+        persistent_workers = persistent_workers
     )
 
     test_dl = DataLoader(
@@ -75,7 +78,8 @@ def get_dataloaders(root: str,
         shuffle = False,
         num_workers = num_workers,
         multiprocessing_context = mp_context,
-        pin_memory = True
+        pin_memory = utils.PIN_MEM,
+        persistent_workers = persistent_workers
     )
 
     return train_dl, test_dl
