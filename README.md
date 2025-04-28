@@ -1,7 +1,7 @@
 # Digit Classifier 
-This is a handwritten digit classifier using a scaled-down **VGG (TinyVGG)** model. The model is trained on images from the MNIST dataset. The web framework for the web application is [Panel](https://panel.holoviz.org/).
+This is a handwritten digit classifier using a scaled-down **VGG (TinyVGG)** model. The model is trained on images from the MNIST dataset. The web framework used for this is [Panel](https://panel.holoviz.org/).
 
-A version of this web application is deployed on [Hugging Face Spaces](https://huggingface.co/spaces/Jechen00/Handwritten_Digit_Classifier).
+A version of this web application is deployed on [Hugging Face Spaces](https://huggingface.co/spaces/Jechen00/Handwritten_Digit_Classifier) as a quick demo. Please note that its performance may vary due to limited resource allocations (uses CPU basic). For a consistently smooth experience, it is recommended to run the application locally.
 
 ![Demo](assets/demo.gif)
 ## Recommended Installation Instructions
@@ -15,11 +15,7 @@ git clone https://github.com/Jechen00/digit-classifier-app.git
 #### 3) Install Packages
 In the digit-classifier-app repository run one of the following:
 ```
-# For pip:
 pip install -r requirements.txt
-
-# For conda/mamba:
-conda install -y -c conda-forge --file requirements.txt
 ```
 Alternatively, the packages can be installed manually like so:
 ```
