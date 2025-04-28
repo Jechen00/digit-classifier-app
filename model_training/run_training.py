@@ -17,13 +17,13 @@ parser = argparse.ArgumentParser(fromfile_prefix_chars = '@')
 parser.add_argument('-nw', '--num-workers', help = 'Number of workers for dataloaders.',
                     type = int, default = 0)
 parser.add_argument('-ne', '--num-epochs', help = 'Number of epochs to train model for.', 
-                    type = int, default = 15)
+                    type = int, default = 25)
 parser.add_argument('-bs', '--batch-size', help = 'Size of batches to split training set.',
                     type = int, default = 100)
 parser.add_argument('-lr', '--learning-rate', help = 'Learning rate for the optimizer.', 
                     type = float, default = 0.001)
 parser.add_argument('-p', '--patience', help = 'Number of epochs to wait before early stopping.', 
-                    type = int, default = 5)
+                    type = int, default = 10)
 parser.add_argument('-md', '--min-delta', help = 'Minimum decrease in loss to reset patience.', 
                     type = float, default = 0.001)
 
@@ -62,6 +62,7 @@ if __name__ == '__main__':
         'num_convs': 2,
         'in_channels': 1,
         'hidden_channels': 10,
+        'fc_hidden_dim': 64,
         'num_classes': len(train_dl.dataset.classes)
     }
 

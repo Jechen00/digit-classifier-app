@@ -69,6 +69,7 @@ class TinyVGG(nn.Module):
         num_convs (int): Number of consecutive convolutional layers + ReLU activations in each VGG block.
         in_channels (int): Number of channels in the input.
         hidden_channels (int): Number of hidden channels between convolutional layers. 
+        fc_hidden_dim (int): Number of output (hidden) features for the first linear layer of the classifer.
         num_classes (int): Number of class labels.
         
     '''
@@ -77,6 +78,7 @@ class TinyVGG(nn.Module):
                  num_convs: int, 
                  in_channels: int, 
                  hidden_channels: int, 
+                 fc_hidden_dim: int,
                  num_classes: int):
         super().__init__()
         
@@ -90,8 +92,7 @@ class TinyVGG(nn.Module):
         self.vgg_body = nn.Sequential(*self.all_blks)
         self.classifier = nn.Sequential(
             nn.Flatten(),
-            nn.LazyLinear(4096), nn.ReLU(), nn.Dropout(0.5),
-            nn.LazyLinear(2048), nn.ReLU(), nn.Dropout(0.5),
+            nn.LazyLinear(fc_hidden_dim), nn.ReLU(), nn.Dropout(0.5),
             nn.LazyLinear(num_classes)
         )
         

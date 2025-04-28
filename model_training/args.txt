@@ -1,12 +1,12 @@
 --num-workers
 0
 --num-epochs
-25
+100
 --batch-size
 100
 --learning-rate
 0.001
 --patience
-10
+20
 --min-delta
-0.001
+0.0005
