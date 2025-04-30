@@ -100,54 +100,54 @@ class DigitClassifier(Viewer):
                         text-decoration: underline;
                     }}
                 </style>
+                <div style="display:flex; flex-direction:column; position:absolute; top:0; bottom:0; overflow-y:scroll;">
+                    <div style="text-align:center; font-size:{styles.FONTSIZES['sidebar_title']}; margin-top:0.2rem">
+                        <b>Digit Classifier</b>
+                    </div>
 
-                <div style="text-align:center; font-size:{styles.FONTSIZES['sidebar_title']};margin-top:0.2rem">
-                    <b>Digit Classifier</b>
-                </div>
+                    <div style="padding:0 2.5% 0 2.5%; text-align:left; font-size:{styles.FONTSIZES['sidebar_txt']}; width: 100%;">
+                        <hr style="height:2px; background-color:rgb(200, 200, 200); border:none; margin-top:0">
 
-                <div style="padding:0 2.5% 0 2.5%; text-align:left; font-size:{styles.FONTSIZES['sidebar_txt']}; width: 100%;">
-                    <hr style="height:2px; background-color:rgb(200, 200, 200); border:none; margin-top:0">
-
-                    <p style="margin:0">
-                        This is a handwritten digit classifier that uses a <i>convolutional neural network (CNN)</i>
-                        to make predictions. The architecture of the model is a scaled-down version of 
-                        the <i>Visual Geometry Group (VGG)</i> architecture from the paper:
-                        <a href="https://arxiv.org/pdf/1409.1556" 
-                           class="link" 
-                           target="_blank" 
-                           rel="noopener noreferrer">
-                        Very Deep Convolutional Networks for Large-Scale Image Recognition</a>.
-                    </p>
-                    </br>
-                    <p style="margin:0">
-                        <b>How To Use:</b> Draw a digit (0-9) on the canvas 
-                        and the model will produce a prediction for it in real time.
-                        Prediction probabilities (or confidences) for each digit are displayed in the bar chart, 
-                        reflecting the model's softmax output distribution.
-                        To the right of the canvas, you'll also find the transformed input image, i.e. the canvas drawing after undergoing  
-                        <a href="https://paperswithcode.com/dataset/mnist"
-                           class="link" 
-                           target="_blank" 
-                           rel="noopener noreferrer">
-                        MNIST preprocessing</a>.  
-                        This input image represents what the model receives prior to feature extraction and classification.
-                    </p>
-                </div>
-                <div style="margin-left: 5px; margin-top: 72px">
-                    <a href="https://github.com/Jechen00"
-                    class="link"
-                    target="blank"
-                    rel="noopener noreferrer"
-                    style="font-size: {styles.FONTSIZES['made_by_txt']}; color: {styles.CLRS['made_by_txt']};">
-                        Made by Jeff Chen
-                    </a>
+                        <p style="margin:0">
+                            This is a handwritten digit classifier that uses a <i>convolutional neural network (CNN)</i>
+                            to make predictions. The architecture of the model is a scaled-down version of 
+                            the <i>Visual Geometry Group (VGG)</i> architecture from the paper:
+                            <a href="https://arxiv.org/pdf/1409.1556" 
+                            class="link" 
+                            target="_blank" 
+                            rel="noopener noreferrer">
+                            Very Deep Convolutional Networks for Large-Scale Image Recognition</a>.
+                        </p>
+                        </br>
+                        <p style="margin:0">
+                            <b>How To Use:</b> Draw a digit (0-9) on the canvas 
+                            and the model will produce a prediction for it in real time.
+                            Prediction probabilities (or confidences) for each digit are displayed in the bar chart, 
+                            reflecting the model's softmax output distribution.
+                            To the right of the canvas, you'll also find the transformed input image, i.e. the canvas drawing after undergoing  
+                            <a href="https://paperswithcode.com/dataset/mnist"
+                            class="link" 
+                            target="_blank" 
+                            rel="noopener noreferrer">
+                            MNIST preprocessing</a>.  
+                            This input image represents what the model receives prior to feature extraction and classification.
+                        </p>
+                    </div>
+                    <div style="margin-top:auto; margin-left:3px;">
+                        <a href="https://github.com/Jechen00"
+                        class="link"
+                        target="blank"
+                        rel="noopener noreferrer"
+                        style="font-size:{styles.FONTSIZES['made_by_txt']}; color:{styles.CLRS['made_by_txt']};">
+                            Made by Jeff Chen
+                        </a>
+                    </div>
                 </div>
             ''',
             styles = {'margin':' 0rem', 'color': styles.CLRS['sidebar_txt'], 
                       'width': '19.7%', 'height': '100%',
                       'font-family': styles.FONTFAMILY,
                       'background-color': styles.CLRS['sidebar'],
-                      'overflow-y':'scroll',
                       'border': 'solid 0.15rem black'}
         )
 

@@ -81,10 +81,14 @@ class PlotPanels(param.Parameterized):
         Any times the URI changes, a class prediction is immediately. 
         Following this, the probability bar chart and model input heatmap are updated as well.
         '''
-        self._update_preprocessed_tensor()
-        self._update_pred_txt()
-        self._update_img_plot()
-        self._update_prob_plot()
+        try:
+            self._update_preprocessed_tensor()
+            self._update_pred_txt()
+            self._update_img_plot()
+            self._update_prob_plot()
+        except Exception as e:
+            print(f'[Errored] {e}')
+            return
 
     def _update_preprocessed_tensor(self):
         '''
@@ -156,7 +160,7 @@ class PlotPanels(param.Parameterized):
         # Used to fix axis limits
         fig.add_trace(
             go.Scatter(
-                x = [0.5, 0.5], y = [0.1, 1],
+                x = [0.5, 0.5], y = [0.1, 1.01],
                 marker = dict(color = 'rgba(0, 0, 0, 0)', size = 10),
                 mode = 'markers', 
                 hoverinfo = 'skip', 
@@ -170,7 +174,8 @@ class PlotPanels(param.Parameterized):
                                      family = styles.FONTFAMILY)),
             tickfont = dict(size = styles.FONTSIZES['plot_ticks'], 
                             family = styles.FONTFAMILY),
-            dtick = 0.1, ticks = 'outside', ticklen = 0,
+            ticks = 'outside', ticklen = 0,
+            tickvals = np.arange(0, 1.1, 0.1),
             gridcolor = styles.CLRS['prob_plot_grid']
         )
         fig.update_xaxes(
